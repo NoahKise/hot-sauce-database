@@ -1,0 +1,15 @@
+@using HotSauce.Models;
+
+<h1>Sauces</h1>
+
+@if (@Model.Count == 0)
+{
+    <h3>No sauces have been added yet!</h3>
+}
+
+@foreach (Sauce sauce in Model)
+{
+    <li>@Html.ActionLink($"{sauce.Name}", "Details", new { id = sauce.SauceId })</li>
+}
+
+<p>@Html.ActionLink("Add new sauce", "Create")</p>
