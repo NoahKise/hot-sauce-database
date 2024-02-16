@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Collections.Generic;
 
+[Authorize]
 public class SaucesController : Controller
 {
     private readonly HotSauceContext _db;
@@ -20,6 +21,7 @@ public class SaucesController : Controller
         _db = db;
     }
 
+    [AllowAnonymous]
     public ActionResult Index()
     {
         List<Sauce> model = _db.Sauces.ToList();
@@ -74,6 +76,7 @@ public class SaucesController : Controller
         return View(model);
     }
 
+    [AllowAnonymous]
     public ActionResult Details(int id)
     {
         Sauce sauce = _db.Sauces
