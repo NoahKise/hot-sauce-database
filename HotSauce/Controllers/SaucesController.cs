@@ -149,4 +149,31 @@ public class SaucesController : Controller
         }
         return View(model);
     }
+
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        Sauce sauce = _db.Sauces.Find(id);
+        if (sauce == null)
+        {
+            return NotFound();
+        }
+
+        return View(sauce);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public IActionResult DeleteConfirmed(int id)
+    {
+        Sauce sauce = _db.Sauces.Find(id);
+        if (sauce == null)
+        {
+            return NotFound();
+        }
+
+        _db.Sauces.Remove(sauce);
+        _db.SaveChanges();
+
+        return RedirectToAction("Index");
+    }
 }
