@@ -22,7 +22,12 @@ namespace HotSauce.Controllers
         [HttpGet("/")]
         public ActionResult Index()
         {
-            return View();
+            Sauce[] sauces = _db.Sauces.ToArray();
+            Dictionary<string, object[]> model = new Dictionary<string, object[]>();
+            model.Add("sauces", sauces);
+            Flavor[] flavors = _db.Flavors.ToArray();
+            model.Add("flavors", flavors);
+            return View(model);
         }
     }
 }

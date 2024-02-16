@@ -1,0 +1,30 @@
+@using HotSauce.Models;
+
+<h1>Welcome to the Hot Sauce Database!</h1>
+
+<hr>
+
+<h4>Sauces</h4>
+@if (Model["sauces"].Length == 0)
+{
+    <p>No sauces have been added yet!</p>
+}
+<ul>
+    @foreach (Sauce sauce in Model["sauces"])
+    {
+        <li>@Html.ActionLink(@sauce.Name, "Details", "Sauces", new { id = @sauce.SauceId })</li>
+    }
+</ul>
+
+
+<h4>Flavor Tags</h4>
+@if (Model["flavors"].Length == 0)
+{
+    <p>No flavor tags have been added yet!</p>
+}
+<ul>
+    @foreach (Flavor flavor in Model["flavors"])
+    {
+        <li>@Html.ActionLink(@flavor.Name, "Details", "Flavors", new { id = @flavor.FlavorId })</li>
+    }
+</ul>
