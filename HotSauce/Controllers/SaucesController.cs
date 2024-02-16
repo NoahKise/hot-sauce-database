@@ -33,13 +33,13 @@ public class SaucesController : Controller
     }
 
     [HttpPost]
-    public ActionResult Create(SauceViewModel model)
+    public async Task<ActionResult> Create(SauceViewModel model)
     {
         if (ModelState.IsValid)
         {
-            // string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            // ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
-            // ViewBag.UserId = currentUser.Id;
+            string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+            ViewBag.UserId = currentUser.Id;
             Sauce sauce = new Sauce
             {
                 Name = model.SauceName,
@@ -66,7 +66,7 @@ public class SaucesController : Controller
                 sauce.JoinEntities.Add(flavorSauce);
                 _db.FlavorSauces.Add(flavorSauce);
             }
-            // sauce.User = currentUser;
+            sauce.User = currentUser;
             _db.Sauces.Add(sauce);
             _db.SaveChanges();
             return RedirectToAction("Index");

@@ -5,7 +5,7 @@
 
 @using (Html.BeginForm("Create", "Sauces", FormMethod.Post))
 {
-    @* @Html.HiddenFor(m => m.UserId) *@
+    @Html.HiddenFor(m => m.UserId)
     <div>
     <label for="SauceName">Hot Sauce Name:</label>
     @Html.TextBoxFor(m => m.SauceName, new { required = "required" })
