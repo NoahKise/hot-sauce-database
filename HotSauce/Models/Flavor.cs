@@ -7,6 +7,6 @@ namespace HotSauce.Models
     {
         public int FlavorId { get; set; }
         public string Name { get; set; }
-        public List<FlavorSauce> JoinEntities { get; }
+        public List<FlavorSauce> JoinEntities { get; } = new List<FlavorSauce>();
     }
 }

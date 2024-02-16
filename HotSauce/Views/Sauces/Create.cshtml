@@ -1,0 +1,66 @@
+@model HotSauce.Models.SauceViewModel
+@using HotSauce.Models
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+
+@using (Html.BeginForm("Create", "Sauces", FormMethod.Post))
+{
+    @* @Html.HiddenFor(m => m.UserId) *@
+    <div>
+    <label for="SauceName">Hot Sauce Name:</label>
+    @Html.TextBoxFor(m => m.SauceName, new { required = "required" })
+    @Html.ValidationMessageFor(m => m.SauceName)
+</div>
+
+    <div>
+    <label for="Description">Description:</label>
+    @Html.TextAreaFor(m => m.Description)
+</div>
+
+    <div>
+    <label for="ImageUrl">Image URL:</label>
+    @Html.TextBoxFor(m => m.ImageUrl)
+</div>
+
+    <h3>Flavors:</h3>
+    <div id="flavorContainer">
+    @for (int i = 0; i < Model.Flavors.Count; i++)
+        {
+            <div class="flavor">
+                <label for="Flavors">Flavor Tag:</label>
+                @Html.TextBoxFor(m => m.Flavors[i].Name, new { required = "required" })
+                <button type="button" class="removeFlavor">Remove</button>
+            </div>
+        }
+    </div>
+    <button type="button" id="addFlavor">Add Flavor</button>
+
+    <input type="submit" value="Submit" />
+}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addFlavorButton = document.getElementById("addFlavor");
+        const flavorContainer = document.getElementById("flavorContainer");
+
+        addFlavorButton.addEventListener("click", function () {
+            const newFlavorDiv = document.createElement("div");
+            newFlavorDiv.className = "flavor";
+
+            const index = document.querySelectorAll('.flavor').length;
+
+            newFlavorDiv.innerHTML = ` 
+                <label for="Flavors">Flavor Tag:</label>
+                <input type="text" name="Flavors[${index}].Name" required />
+                <button type="button" class="removeFlavor">Remove</button>
+            `;
+
+            flavorContainer.appendChild(newFlavorDiv);
+
+            const removeFlavorButton = newFlavorDiv.querySelector(".removeFlavor");
+            removeFlavorButton.addEventListener("click", function () {
+                flavorContainer.removeChild(newFlavorDiv);
+            });
+        });
+    });
+</script>
