@@ -1,20 +1,20 @@
 @using HotSauce.Models
-@model HotSauce.Models.Sauce
+@model HotSauce.Models.Flavor
 
 <h2>@Model.Name</h2>
 
 @if (@Model.JoinEntities.Count == 0)
 {
-    <p>This sauce has no flavor tags...</p>
+    <p>This flavor tag has no sauces...</p>
 }
 else
 {
-    <h4>Flavor Tags:</h4>
+    <h4>Sauces:</h4>
     <ul>
     @foreach (FlavorSauce join in Model.JoinEntities)
         {
-            <a href="/flavors/details/@join.Flavor.FlavorId">
-                <li>@join.Flavor.Name</li>
+            <a href="/sauces/details/@join.Sauce.SauceId">
+                <li>@join.Sauce.Name</li>
             </a>
         }
     </ul>
