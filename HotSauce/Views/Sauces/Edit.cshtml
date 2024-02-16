@@ -29,7 +29,7 @@
     @for (int i = 0; i < Model.JoinEntities.Count; i++)
         {
             <div class="flavor">
-                <label for="Flavors">Flavor Tags:</label>
+                <label for="Flavors">Flavor Tag:</label>
                 @Html.TextBoxFor(m => m.JoinEntities[i].Flavor.Name, new { required = "required" })
                 <button type="button" class="removeFlavor">Remove</button>
             </div>
