@@ -19,5 +19,7 @@ else
         }
     </ul>
 }
+@Html.ActionLink("Edit Sauce", "Edit", new { id = Model.SauceId })
+@Html.ActionLink("Delete Sauce", "Delete", new { id = Model.SauceId })
 
 <p>@Html.ActionLink("Back to list", "Index")</p>

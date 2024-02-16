@@ -82,4 +82,80 @@ public class SaucesController : Controller
             .FirstOrDefault(s => s.SauceId == id);
         return View(sauce);
     }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        Sauce sauce = _db.Sauces
+            .Include(s => s.JoinEntities)
+            .ThenInclude(join => join.Flavor)
+            .FirstOrDefault(s => s.SauceId == id);
+
+        if (sauce == null)
+        {
+            return NotFound();
+        }
+
+        return View(sauce);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(int id, Sauce model)
+    {
+        if (ModelState.IsValid)
+        {
+            // Retrieve the existing recipe from the database including related entities
+            Sauce existingSauce = _db.Sauces
+                .Include(s => s.JoinEntities)
+                .ThenInclude(join => join.Flavor)
+                .FirstOrDefault(s => s.SauceId == id);
+
+            if (existingSauce == null)
+            {
+                return NotFound();
+            }
+
+            // Clear existing IngredientRecipe relationships for the recipe
+            _db.FlavorSauces.RemoveRange(existingSauce.JoinEntities);
+
+            // Update properties of the existing recipe
+            existingSauce.Name = model.Name;
+            existingSauce.Description = model.Description;
+            existingSauce.ImageUrl = model.ImageUrl;
+
+            // Add new IngredientRecipe entities
+            foreach (var joinEntity in model.JoinEntities)
+            {
+                // If the join has a new Ingredient, add it only if it doesn't already exist
+                string trimmedFlavorName = joinEntity.Flavor.Name.Trim();
+                Flavor existingFlavor = _db.Flavors.FirstOrDefault(f => f.Name == trimmedFlavorName);
+
+                if (existingFlavor != null)
+                {
+                    // If the ingredient already exists, associate it with the join
+                    joinEntity.Flavor = existingFlavor;
+                }
+                else
+                {
+                    // If the ingredient doesn't exist, add a new one
+                    Flavor newFlavor = new Flavor { Name = trimmedFlavorName };
+                    joinEntity.Flavor = newFlavor;
+                    _db.Flavors.Add(newFlavor);
+                }
+
+                // Add new IngredientRecipe
+                existingSauce.JoinEntities.Add(new FlavorSauce
+                {
+                    Flavor = joinEntity.Flavor,
+                    Sauce = existingSauce,
+                });
+            }
+
+            // Save changes to the database
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        return View(model);
+    }
 }
