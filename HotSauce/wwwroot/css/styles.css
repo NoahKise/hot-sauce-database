@@ -1,0 +1,18 @@
+body {
+    background-color: rgb(20, 20, 20);
+}
+
+#navbar {
+    display: flex;
+    flex-direction: row;
+}
+
+#navbar img {
+    height: 20vw;
+    filter: brightness(100);
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
