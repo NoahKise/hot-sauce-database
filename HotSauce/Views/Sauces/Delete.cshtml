@@ -1,10 +1,11 @@
 @model HotSauce.Models.Sauce
 
+<div id="delete">
+    <h2>Are you sure you want to delete @Model.Name?</h2>
 
-<h2>Are you sure you want to delete @Model.Name?</h2>
-
-@using (Html.BeginForm())
-{
-    <input type="submit" value="Delete" />
-}
-@Html.ActionLink("Back To Details", "Details", "Sauces", new { id = Model.SauceId })
+    @using (Html.BeginForm())
+    {
+        <input type="submit" value="Delete" />
+    }
+    @Html.ActionLink("Back To Details", "Details", "Sauces", new { id = Model.SauceId })
+</div>

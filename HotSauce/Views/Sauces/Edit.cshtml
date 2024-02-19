@@ -1,46 +1,44 @@
 @model HotSauce.Models.Sauce
 
-<h2>Edit Sauce</h2>
+<div class="list">
+    <h4>Editing: @Html.DisplayFor(model => model.Name)</h4>
 
-<h4>Edit this sauce: @Html.DisplayFor(model => model.Name)</h4>
+    @{
+        ViewData["Title"] = "Edit Recipe";
+        Layout = "_Layout";
+    }
 
-@{
-    ViewData["Title"] = "Edit Recipe";
-    Layout = "_Layout";
-}
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.SauceId)
 
-@using (Html.BeginForm())
-{
-    @Html.HiddenFor(model => model.SauceId)
+        @Html.EditorFor(model => model.Name)
+        <p>Name</p>
 
+        @Html.EditorFor(model => model.Description)
+        <p>Description</p>
 
-    @Html.LabelFor(model => model.Name)
-    @Html.EditorFor(model => model.Name)
+        @Html.EditorFor(model => model.ImageUrl)
+        <p>Image URL</p>
 
-    @Html.LabelFor(model => model.Description)
-    @Html.EditorFor(model => model.Description)
+        <h4>Edit Flavor Tags:</h4>
+        <div id="flavorContainer">
+            @for (int i = 0; i < Model.JoinEntities.Count; i++)
+            {
+                <div class="flavor">
+                    <label for="Flavors">Flavor Tag:</label>
+                    @Html.TextBoxFor(m => m.JoinEntities[i].Flavor.Name, new { required = "required" })
+                    <button type="button" class="removeFlavor">Remove</button>
+                </div>
+            }
+        </div>
+        <button type="button" id="addFlavor">Add Flavor Tag</button>
 
+        <input type="submit" value="Save" />
+    }
 
-    @Html.LabelFor(model => model.ImageUrl)
-    @Html.EditorFor(model => model.ImageUrl)
-
-    <h3>Edit Flavor Tags:</h3>
-    <div id="flavorContainer">
-    @for (int i = 0; i < Model.JoinEntities.Count; i++)
-        {
-            <div class="flavor">
-                <label for="Flavors">Flavor Tag:</label>
-                @Html.TextBoxFor(m => m.JoinEntities[i].Flavor.Name, new { required = "required" })
-                <button type="button" class="removeFlavor">Remove</button>
-            </div>
-        }
-    </div>
-    <button type="button" id="addFlavor">Add Flavor Tag</button>
-
-    <input type="submit" value="Save" />
-}
-
-@Html.ActionLink("Cancel", "Details", new { id = Model.SauceId })
+    @Html.ActionLink("Cancel", "Details", new { id = Model.SauceId })
+</div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {

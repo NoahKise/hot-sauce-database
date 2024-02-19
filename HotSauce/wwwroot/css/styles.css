@@ -37,3 +37,26 @@ a {
 h4 {
     color: bisque;
 }
+
+h1 {
+    color: bisque;
+}
+
+h2 {
+    color: bisque;
+}
+
+p {
+    color: bisque;
+}
+
+label {
+    color: bisque;
+}
+
+#delete {
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}

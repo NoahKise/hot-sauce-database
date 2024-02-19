@@ -1,25 +1,27 @@
 @using HotSauce.Models
 @model HotSauce.Models.Sauce
+<div class="list">
+    <h2>@Model.Name</h2>
 
-<h2>@Model.Name</h2>
+    @if (@Model.JoinEntities.Count == 0)
+    {
+        <p>This sauce has no flavor tags...</p>
+    }
+    else
+    {
+        <h4>Flavor Tags:</h4>
+        <ul>
+            @foreach (FlavorSauce join in Model.JoinEntities)
+            {
+                <a href="/flavors/details/@join.Flavor.FlavorId">
+                    <li>@join.Flavor.Name</li>
+                </a>
+            }
+        </ul>
+    }
+    @Html.ActionLink("Edit Sauce", "Edit", new { id = Model.SauceId })
+    <br>
+    @Html.ActionLink("Delete Sauce", "Delete", new { id = Model.SauceId })
 
-@if (@Model.JoinEntities.Count == 0)
-{
-    <p>This sauce has no flavor tags...</p>
-}
-else
-{
-    <h4>Flavor Tags:</h4>
-    <ul>
-    @foreach (FlavorSauce join in Model.JoinEntities)
-        {
-            <a href="/flavors/details/@join.Flavor.FlavorId">
-                <li>@join.Flavor.Name</li>
-            </a>
-        }
-    </ul>
-}
-@Html.ActionLink("Edit Sauce", "Edit", new { id = Model.SauceId })
-@Html.ActionLink("Delete Sauce", "Delete", new { id = Model.SauceId })
-
-<p>@Html.ActionLink("Back to list", "Index")</p>
+    <p>@Html.ActionLink("Back to list", "Index")</p>
+</div>

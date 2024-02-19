@@ -1,23 +1,24 @@
 @using HotSauce.Models
 @model HotSauce.Models.Flavor
+<div class="list">
+    <h2>#@Model.Name</h2>
 
-<h2>#@Model.Name</h2>
+    @if (@Model.JoinEntities.Count == 0)
+    {
+        <p>This flavor tag has no sauces...</p>
+    }
+    else
+    {
+        <h4>Sauces:</h4>
+        <ul>
+            @foreach (FlavorSauce join in Model.JoinEntities)
+            {
+                <a href="/sauces/details/@join.Sauce.SauceId">
+                    <li>@join.Sauce.Name</li>
+                </a>
+            }
+        </ul>
+    }
 
-@if (@Model.JoinEntities.Count == 0)
-{
-    <p>This flavor tag has no sauces...</p>
-}
-else
-{
-    <h4>Sauces:</h4>
-    <ul>
-    @foreach (FlavorSauce join in Model.JoinEntities)
-        {
-            <a href="/sauces/details/@join.Sauce.SauceId">
-                <li>@join.Sauce.Name</li>
-            </a>
-        }
-    </ul>
-}
-
-<p>@Html.ActionLink("Back to list", "Index")</p>
+    <p>@Html.ActionLink("Back to list", "Index")</p>
+</div>
